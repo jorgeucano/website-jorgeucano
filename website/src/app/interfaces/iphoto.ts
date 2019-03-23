@@ -1,4 +1,5 @@
 export interface IPhoto {
-  url: string;
+  src: string;
   href: string;
+  alt: string;
 }

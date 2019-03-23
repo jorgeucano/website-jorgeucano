@@ -19,7 +19,9 @@ import {interval, Observable, Subscriber} from 'rxjs';
           opacity: 0,
           transform: 'rotate(180deg)'
         })
-      )
+      ),
+      transition('show => hide', animate('1000ms ease-out')),
+      transition('hide => show', animate('1000ms ease-in'))
     ])
   ]
 })
@@ -27,7 +29,12 @@ import {interval, Observable, Subscriber} from 'rxjs';
 export class SliderComponent implements OnInit, OnDestroy {
 
   sliderShow = 'show';
-  photos: Array<IPhoto> = [];
+  photos: Array<IPhoto> = [
+    {href: '/home', alt: 'hola soy un alt', src: 'https://angular.io/assets/images/logos/angular/angular.svg'},
+    {href: '/home', alt: 'hola soy un alt', src: 'https://angular.io/assets/images/logos/angular/angular.svg'},
+    {href: '/home', alt: 'hola soy un alt', src: 'https://angular.io/assets/images/logos/angular/angular.svg'},
+    {href: '/home', alt: 'hola soy un alt', src: 'https://angular.io/assets/images/logos/angular/angular.svg'}
+  ];
   sliderInterval: any;
   selected: number = 0;
 
@@ -35,6 +42,7 @@ export class SliderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sliderChange(this.selected, false);
+    this._sliderInterval();
   }
   ngOnDestroy() {
     this.sliderInterval.complete();
@@ -44,19 +52,27 @@ export class SliderComponent implements OnInit, OnDestroy {
     const sliderInterval = interval(6000);
     this.sliderInterval = sliderInterval.subscribe(
       () => {
-        this.selected++;
-        const paginator = this.photos.length;
-
+        this.sliderChange(this.selected, false);
       }
-    )
+    );
   }
 
   sliderChange(selected: number, byClick: boolean) {
     if (byClick) {
-
+      this.sliderInterval.complete();
+      setTimeout(() => {
+        this._sliderInterval();
+      }, 5000);
     }
-
-
+    this.sliderShow = 'hide';
+    this.selected++;
+    const paginator = this.photos.length;
+    if (this.selected === paginator) {
+      this.selected = 0;
+    }
+    setTimeout(() => {
+      this.sliderShow = 'show';
+    }, 500);
   }
 
 }

@@ -1,3 +1,12 @@
-<p>
-  slider works!
-</p>
+<div>
+  <ul *ngFor="let photo of photos; let i = index">
+    <li *ngIf="i === selected">
+      <img
+        [routerLink]="photo.href"
+        #slider
+        [@slider]="sliderShow"
+        [src]="photo.src"
+        [alt]="photo.alt">
+    </li>
+  </ul>
+</div>

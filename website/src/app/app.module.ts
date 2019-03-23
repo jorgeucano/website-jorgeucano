@@ -26,7 +26,6 @@ const routes: Routes = [
     MaterialModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
