@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import {IPhoto} from '../../interfaces/iphoto';
-import {interval, Observable, Subscriber} from 'rxjs';
+import {interval} from 'rxjs';
 @Component({
   selector: 'app-slider',
   templateUrl: './slider.component.html',
@@ -17,7 +17,7 @@ import {interval, Observable, Subscriber} from 'rxjs';
       state('hide',
         style({
           opacity: 0,
-          transform: 'rotate(180deg)'
+          transform: 'rotate(360deg)'
         })
       ),
       transition('show => hide', animate('1000ms ease-out')),
@@ -28,15 +28,16 @@ import {interval, Observable, Subscriber} from 'rxjs';
 
 export class SliderComponent implements OnInit, OnDestroy {
 
+  // logica del componente
   sliderShow = 'show';
-  photos: Array<IPhoto> = [
-    {href: '/home', alt: 'hola soy un alt', src: 'https://angular.io/assets/images/logos/angular/angular.svg'},
-    {href: '/home', alt: 'hola soy un alt', src: 'https://angular.io/assets/images/logos/angular/angular.svg'},
-    {href: '/home', alt: 'hola soy un alt', src: 'https://angular.io/assets/images/logos/angular/angular.svg'},
-    {href: '/home', alt: 'hola soy un alt', src: 'https://angular.io/assets/images/logos/angular/angular.svg'}
-  ];
-  sliderInterval: any;
+  photosShow = [];
   selected: number = 0;
+  sliderInterval: any;
+
+  // logica de datos y muestras
+  @Input('photos') photos: Array<IPhoto> = [];
+  @Input('cantOfImageShow') cantOfImageShow: number = 2;
+
 
   constructor() { }
 
@@ -52,6 +53,7 @@ export class SliderComponent implements OnInit, OnDestroy {
     const sliderInterval = interval(6000);
     this.sliderInterval = sliderInterval.subscribe(
       () => {
+        this.selected++;
         this.sliderChange(this.selected, false);
       }
     );
@@ -65,11 +67,17 @@ export class SliderComponent implements OnInit, OnDestroy {
       }, 5000);
     }
     this.sliderShow = 'hide';
-    this.selected++;
-    const paginator = this.photos.length;
-    if (this.selected === paginator) {
+    const _seletect = selected * this.cantOfImageShow;
+    const paginator = this.photos.length / this.cantOfImageShow;
+    if (_seletect === paginator) {
       this.selected = 0;
     }
+    this.photosShow = [];
+    for (let i = 0; i < this.cantOfImageShow; i++) {
+      const pointer = selected + i;
+      this.photosShow.push(this.photos[pointer]);
+    }
+
     setTimeout(() => {
       this.sliderShow = 'show';
     }, 500);

@@ -1,6 +1,10 @@
 <div>
-  <ul *ngFor="let photo of photos; let i = index">
-    <li *ngIf="i === selected">
+  <img
+    class="arrow arrow-left"
+    src="https://cdn0.iconfinder.com/data/icons/simple-outlines-1/100/Next-512.png"
+    (click)="sliderChange((selected-1), true)" />
+  <ul *ngFor="let photo of photosShow">
+    <li>
       <img
         [routerLink]="photo.href"
         #slider
@@ -9,4 +13,8 @@
         [alt]="photo.alt">
     </li>
   </ul>
+  <img
+    class="arrow"
+    src="https://cdn0.iconfinder.com/data/icons/simple-outlines-1/100/Next-512.png"
+    (click)="sliderChange((selected+1), true)" />
 </div>

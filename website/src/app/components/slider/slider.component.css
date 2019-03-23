@@ -1,3 +1,25 @@
 img {
   width: 150px;
+  float: left;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  float: left;
+}
+
+li {
+  float: left;
+}
+
+.arrow {
+  width: 50px;
+  cursor: pointer;
+}
+
+.arrow-left {
+  transform: rotate(180deg);
 }
