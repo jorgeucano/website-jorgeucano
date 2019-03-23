@@ -2,26 +2,29 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
-import {Routes} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {MaterialModule} from './material/material.module';
 import { MenuComponent } from './components/menu/menu.component';
+import { SliderComponent } from './components/slider/slider.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home' },
-  { path: 'home', }
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', loadChildren: './home/home.module#HomeModule' }
 ];
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent
+    MenuComponent,
+    SliderComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]

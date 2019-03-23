@@ -1,11 +1,13 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>Custom Toolbar</span>
+    <span>@jorgeucano</span>
     <menu>
-      <button mat-button color="warn">Home</button>
-      <button mat-button color="accent">Blog</button>
-      <button mat-button color="accent">Videos</button>
-      <button mat-button color="accent">CFP</button>
+      <a
+        *ngFor="let m of menu"
+        [disabled]="m.link === url"
+        [routerLink]="m.link"
+        mat-button
+        [color]="m.color">{{m.name}}</a>
     </menu>
   </mat-toolbar-row>
 </mat-toolbar>
